@@ -250,9 +250,15 @@ class _HomePageState extends State<HomePage> {
                       color: Color.fromARGB(255, 208, 186, 60),
                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), topRight: Radius.circular(12)),
                     ),
-                    child: const Text("invited",
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: 0.5)),
+                    child: const Text(
+                      "invited",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
                   ),
                 ),
               ],

@@ -19,13 +19,3 @@ class Ride {
     required this.subtitlePlace,
   });
 }
-
-class Stories {
-  final String title;
-  final String subtitle;
-
-  Stories({
-    required this.title,
-    required this.subtitle,
-  });
-}

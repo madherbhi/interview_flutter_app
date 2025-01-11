@@ -15,12 +15,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  final PageController _pageController = PageController();
   final List<Widget> _tabs = [
     const RidersTab(),
     const StoriesTab(),
     const MaraketTab(),
     const GarageTab(),
   ];
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +61,7 @@ class _HomePageState extends State<HomePage> {
           ),
           const Gap(10),
           const Text(
-            "Test",
+            "Madherbhi",
             style: TextStyle(fontSize: 18, color: Colors.white, letterSpacing: 0.5),
           ),
         ],
@@ -103,10 +109,15 @@ class _HomePageState extends State<HomePage> {
             child: _tabSelectionHeader(),
           ),
         ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: _tabs[_currentIndex],
+        SliverFillRemaining(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            children: _tabs,
           ),
         ),
       ],
@@ -114,29 +125,50 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _tabSelectionHeader() {
-    return Row(
-      children: List.generate(4, (index) {
-        return Expanded(
-          child: GestureDetector(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(4, (index) {
+          return GestureDetector(
             onTap: () {
               setState(() {
                 _currentIndex = index;
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInCirc,
+                );
               });
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15),
-              child: Text(
-                _getTabTitle(index),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: _currentIndex == index ? Colors.black : Colors.grey,
-                    fontSize: 16,
-                    fontWeight: _currentIndex == index ? FontWeight.bold : FontWeight.normal),
+              width: 120,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+              child: Column(
+                children: [
+                  Text(
+                    _getTabTitle(index),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: _currentIndex == index ? Colors.black : Colors.grey,
+                      fontSize: 20,
+                      fontWeight: _currentIndex == index ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
+                  const Gap(3),
+                  Container(
+                    height: 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(60),
+                      color: _currentIndex == index ? Colors.black : Colors.transparent,
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 

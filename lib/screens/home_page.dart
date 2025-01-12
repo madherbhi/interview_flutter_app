@@ -110,14 +110,19 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         SliverFillRemaining(
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            children: _tabs,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+            ),
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              children: _tabs,
+            ),
           ),
         ),
       ],
